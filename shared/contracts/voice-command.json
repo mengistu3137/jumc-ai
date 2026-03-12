@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VoiceCommand",
+  "type": "object",
+  "required": ["rawText", "timestamp"],
+  "properties": {
+    "rawText": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Original transcribed text from doctor speech"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "doctorId": {
+      "type": "string"
+    },
+    "patientId": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

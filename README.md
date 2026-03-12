@@ -1,323 +1,109 @@
-# jumc-ai
+# JUMC AI - Voice-Enabled Hospital Assistant
 
-# 1️⃣ Complete System Architecture (Voice AI Hospital Assistant)
+This repository contains a mobile-first hospital voice assistant architecture.
 
-Your system will have **5 main layers**.
+Current implementation status:
+- STEP 1 complete: professional project scaffold
+- Later roadmap steps are not implemented yet
 
-```
-Doctor Voice
-     │
-     ▼
-Voice Capture Layer
-     │
-     ▼
-Speech Recognition Layer
-     │
-     ▼
-AI Command Understanding Layer
-     │
-     ▼
-Hospital Workflow Engine
-     │
-     ▼
-Hospital Management System (Database + Modules)
-```
+## Architecture Pipeline
 
-Now let’s break them down.
+Voice Input  
+-> Voice Capture Layer  
+-> Speech Recognition  
+-> AI Command Understanding  
+-> Hospital Workflow Engine  
+-> Hospital Management System (MySQL + Modules)
 
----
+## Technology Targets
 
-# 🧱 Layer 1 — Voice Capture Layer
+- Mobile: React Native + Expo + NativeWind (to be added in STEP 2)
+- Backend: Node.js + Express REST API
+- Database: MySQL
+- AI: Speech recognition + command parser + workflow engine
+- Real-time: WebSockets
 
-This captures audio from the doctor.
+## STEP 1 Folder Structure
 
-Possible devices:
-
-* Bluetooth microphone
-* Ear microphone
-* Mobile phone
-* Tablet
-* Desktop microphone
-
-### Technologies
-
-* WebRTC
-* Browser Speech API
-* Mobile microphone SDK
-
-Example flow:
-
-```
-Doctor speaks
-↓
-Browser / Mobile captures audio
-↓
-Audio sent to backend
-```
-
----
-
-# 🧠 Layer 2 — Speech Recognition (Voice → Text)
-
-Audio must be converted into text.
-
-Example:
-
-Doctor says:
-
-> “Prescribe Amoxicillin 500 milligram three times daily”
-
-System converts to:
-
-```
-Prescribe Amoxicillin 500mg three times daily
-```
-
-### Possible engines
-
-* OpenAI Whisper
-* Google Speech-to-Text
-* Azure Speech Services
-
-Whisper is very good with **medical terms**.
-
----
-
-# 🧠 Layer 3 — AI Command Understanding
-
-Now the system must **understand what the doctor meant**.
-
-Example input:
-
-```
-Prescribe Amoxicillin 500mg three times daily for 7 days
+```text
+jumc-ai/
+     backend/
+          .env.example
+          src/
+               api/
+                    controllers/
+                    middlewares/
+                    routes/
+               app/
+               config/
+               database/
+                    migrations/
+                    repositories/
+               integrations/
+                    llm/
+                    speech/
+               modules/
+                    billing/
+                    doctorNotes/
+                    laboratory/
+                    nlp/
+                    notifications/
+                    patients/
+                    pharmacy/
+                    voice/
+                    workflows/
+               realtime/
+               utils/
+               index.js
+     database/
+          schema.sql
+     docs/
+          architecture.md
+          development-roadmap.md
+     frontend/
+          ...existing web starter (kept unchanged)
+     infrastructure/
+          docker/
+          scripts/
+     mobile/
+          App.js
+          app.json
+          babel.config.js
+          package.json
+          assets/
+               icons/
+               images/
+          src/
+               components/
+               hooks/
+               navigation/
+               screens/
+               services/
+               store/
+               theme/
+               utils/
+     shared/
+          constants/
+          contracts/
 ```
 
-AI converts it to structured command:
-
-```json
-{
-  "action": "prescribe",
-  "drug": "amoxicillin",
-  "dosage": "500mg",
-  "frequency": "3 times daily",
-  "duration": "7 days"
-}
-```
-
-This is called **Natural Language Understanding (NLU)**.
-
----
-
-# ⚙️ Layer 4 — Hospital Workflow Engine
-
-This is the **brain of the hospital system**.
-
-It decides what to do with the command.
-
-Example logic:
-
-```
-IF action = prescribe
-    check pharmacy stock
-    create prescription
-    notify pharmacy
-```
-
-Another example:
-
-```
-IF action = order_lab
-    create lab request
-    notify lab department
-```
-
-This is like an **AI-controlled hospital workflow system**.
-
----
-
-# 🏥 Layer 5 — Hospital System Modules
-
-Your existing hospital modules:
-
-* Patient registration
-* Pharmacy
-* Laboratory
-* Billing
-* Doctor notes
-* Staff notifications
-
-The AI simply **controls these modules using APIs**.
-
----
-
-# 🔄 Example Real Workflow
-
-Doctor says:
-
-> “Register patient Ahmed Ali, 45 years old, chest pain.”
-
-System does:
-
-1️⃣ AI converts speech to text
-2️⃣ AI extracts patient info
-3️⃣ Creates patient record
-4️⃣ Opens emergency visit
-
-All automatically.
-
----
-
-# 2️⃣ How Big Voice Assistants Work
-
-Voice assistants like:
-
-* Alexa
-* Siri
-* Google Assistant
-
-follow this same pipeline.
-
-```
-Voice
-↓
-Speech Recognition
-↓
-Intent Detection
-↓
-Command Execution
-↓
-Response
-```
-
-Your system is simply a **medical version of this pipeline**.
-
----
-
-# 3️⃣ Recommended Technology Stack
-
-### Frontend
-
-React + Tailwind
-
-Used for:
-
-* dashboards
-* notifications
-* microphone UI
-
----
-
-### Backend (Core Brain)
-
-Node.js (Express)
-
-Handles:
-
-* AI commands
-* APIs
-* workflow engine
-
----
-
-### AI Services
-
-* Whisper → voice recognition
-* LLM → command understanding
-
----
-
-### Database
-
-MySQL
-
-Tables:
-
-```
-patients
-prescriptions
-medications
-pharmacy_stock
-voice_logs
-ai_commands
-staff_notifications
-```
-
----
-
-### Real-Time Communication
-
-Use:
-
-```
-WebSockets
-```
-
-So when doctor speaks:
-
-* pharmacist gets notification
-* lab receives order instantly
-
----
-
-# 4️⃣ Example System Architecture Diagram
-
-```
-                Doctor
-                  │
-                  ▼
-        Voice Capture (Web / Mobile)
-                  │
-                  ▼
-        Speech Recognition (Whisper)
-                  │
-                  ▼
-        AI Command Parser (LLM)
-                  │
-                  ▼
-        Hospital Workflow Engine
-                  │
-      ┌───────────┼───────────┐
-      ▼           ▼           ▼
- Patient      Pharmacy      Laboratory
- Module        Module        Module
-      │           │           │
-      └───────────┴───────────┘
-                  │
-                  ▼
-               MySQL
-```
-
----
-
-# 5️⃣Realistic Development Roadmap
-
-step 1
-create the professional folder structure
-
-Build MVP
-
-Features:
-
-* microphone input
-* speech → text
-* simple prescription creation
-
-## step 2
-
-Add AI command parsing
-
-Example:
-
-Doctor says:
-
-> “Give paracetamol 500mg”
-
-System extracts medication automatically.
-
----
-
-## step  3
+## Step Boundaries
+
+- Implemented in STEP 1:
+     - Professional mono-repo style folder organization
+     - Initial Expo-compatible mobile scaffold
+     - Backend domain/module scaffolding for hospital workflows
+     - Shared contracts/constants folders
+
+- Not implemented yet:
+     - Conversation UI
+     - Microphone recording
+     - Speech-to-text
+     - Backend command API
+     - Rule-based or LLM parsing
+     - MySQL integration and workflows
+
+Proceed with STEP 2 next.
 
 Add system automation:
 

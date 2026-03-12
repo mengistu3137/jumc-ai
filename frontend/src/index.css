@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+/* Simple helper to constrain the mobile view */
+.app-shell {
+  max-width: 540px;
+  margin: 0 auto;
+  height: 100vh;
+}
